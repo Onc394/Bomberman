@@ -1717,16 +1717,20 @@
 
     // ================ INICIALIZACIÓN ================
     // Polyfill para seedrandom si no está disponible
-    if (typeof Math.seedrandom !== 'function') {
-      Math.seedrandom = function(seed) {
-        // Implementación simple de seedrandom
-        let value = seed;
-        return function() {
-          value = (value * 9301 + 49297) % 233280;
-          return value / 233280;
-        };
-      };
+if (typeof Math.seedrandom !== 'function') {
+  Math.seedrandom = function(seed) {
+    // Reemplaza por esta implementación segura:
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) {
+      hash = (hash << 5) - hash + seed.charCodeAt(i);
+      hash |= 0;
     }
+    return function() {
+      hash = Math.sin(hash) * 10000;
+      return hash - Math.floor(hash);
+    };
+  };
+}
 
     loadGame();
     updateInventory();

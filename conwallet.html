@@ -96,7 +96,7 @@
       justify-content: center;
       gap: 20px;
       width: 100%;
-      max-width: 1200px;
+      max-width: 1400px;
     }
 
     #game-canvas {
@@ -104,9 +104,11 @@
       border: 4px solid var(--accent);
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      order: 2; /* Mapa en el medio */
     }
 
-    .tab-system {
+    /* Panel izquierdo - Personajes */
+    .left-panel {
       display: flex;
       flex-direction: column;
       min-width: 250px;
@@ -117,6 +119,22 @@
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
       border: 2px solid rgba(255, 255, 255, 0.1);
       overflow: hidden;
+      order: 1; /* Panel izquierdo primero */
+    }
+
+    /* Panel derecho - Tienda/Ronin */
+    .right-panel {
+      display: flex;
+      flex-direction: column;
+      min-width: 250px;
+      width: 250px;
+      height: 450px;
+      background: rgba(30, 30, 60, 0.8);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      order: 3; /* Panel derecho último */
     }
 
     .tab-buttons {
@@ -204,11 +222,6 @@
     .shop-rarity-item.rare { border-color: var(--rare); }
     .shop-rarity-item.epic { border-color: var(--epic); }
     .shop-rarity-item.legendary { border-color: var(--legendary); }
-
-    #characters {
-      height: calc(100% - 30px);
-      overflow-y: auto;
-    }
 
     .character-card {
       background: rgba(50, 50, 80, 0.7);
@@ -360,17 +373,164 @@
       z-index: 10;
     }
 
-    @media (max-width: 768px) {
+    /* Estilos para la Slot Machine (nuevo diseño) */
+    #slot-machine-container {
+      width: 100%;
+      max-width: 1200px;
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 10px;
+      padding: 20px;
+      border: 4px solid var(--accent);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+
+    #slot-machine {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #slot-display {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+      perspective: 1000px;
+      height: 100px;
+      align-items: center;
+    }
+
+    .slot-reel {
+      width: 80px;
+      height: 80px;
+      background: #333;
+      border-radius: 10px;
+      position: relative;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .slot-symbol {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3rem;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease-out;
+    }
+
+    .slot-reel.spinning .slot-symbol {
+      animation: spin 0.1s infinite linear;
+    }
+
+    @keyframes spin {
+      0% { transform: translateY(0) rotateX(0); }
+      100% { transform: translateY(-100%) rotateX(360deg); }
+    }
+
+    /* Colores para los símbolos */
+    .slot-symbol[data-type="bomb"] { color: #ff5555; }
+    .slot-symbol[data-type="dynamite"] { color: #ff9900; }
+    .slot-symbol[data-type="diamond"] { color: #55ffff; }
+    .slot-symbol[data-type="amulet"] { color: #aa55ff; }
+    .slot-symbol[data-type="crown"] { color: #ffd700; }
+    .slot-symbol[data-type="jackpot"] { color: #ffff55; text-shadow: 0 0 10px gold; }
+
+    #jackpot-display {
+      margin: 10px 0;
+      font-weight: bold;
+      color: var(--gold);
+      font-size: 1.5rem;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    }
+
+    #slot-result {
+      min-height: 30px;
+      margin: 15px 0;
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .spin-button {
+      background: linear-gradient(135deg, #f72585, #b5179e);
+      font-size: 1.2rem;
+      padding: 12px 30px;
+      border-radius: 50px;
+      box-shadow: 0 0 15px rgba(247, 37, 133, 0.5);
+      margin-top: 10px;
+      transition: all 0.3s;
+    }
+
+    .spin-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 20px rgba(247, 37, 133, 0.8);
+    }
+
+    .prizes-container {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .prize-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 10px;
+      padding: 10px;
+      background: rgba(50, 50, 80, 0.7);
+      border-radius: 10px;
+      min-width: 100px;
+    }
+
+    .prize-icon {
+      font-size: 2rem;
+      margin-bottom: 5px;
+    }
+
+    .prize-amount {
+      color: var(--gold);
+      font-weight: bold;
+    }
+
+    @media (max-width: 1200px) {
       #game-container {
         flex-direction: column;
         align-items: center;
       }
 
-      .tab-system {
+      .left-panel, .right-panel {
         width: 100%;
-        max-width: 400px;
+        max-width: 500px;
       }
-      
+
+      #game-canvas {
+        order: 1;
+      }
+
+      .left-panel {
+        order: 2;
+      }
+
+      .right-panel {
+        order: 3;
+      }
+
+      #slot-machine-container {
+        order: 4;
+      }
+    }
+
+    @media (max-width: 768px) {
       .tab-button {
         font-size: 0.6rem;
         padding: 10px 0;
@@ -379,6 +539,15 @@
       button {
         font-size: 0.7rem;
         padding: 6px 10px;
+      }
+
+      #slot-display {
+        font-size: 2rem;
+      }
+
+      .slot-reel {
+        width: 60px;
+        height: 60px;
       }
     }
   </style>
@@ -406,21 +575,35 @@
   </div>
   
   <div id="game-container">
+    <!-- Panel izquierdo - Personajes -->
+    <div class="left-panel">
+      <div class="tab-buttons">
+        <button class="tab-button active" data-tab="active-characters">Activos</button>
+        <button class="tab-button" data-tab="inactive-characters">Inactivos</button>
+      </div>
+      
+      <div class="tab-content active" id="active-characters-tab">
+        <div class="panel-title">PERSONAJES ACTIVOS</div>
+        <div id="active-characters"></div>
+      </div>
+      
+      <div class="tab-content" id="inactive-characters-tab">
+        <div class="panel-title">PERSONAJES INACTIVOS</div>
+        <div id="inactive-characters"></div>
+      </div>
+    </div>
+    
+    <!-- Mapa del juego -->
     <canvas id="game-canvas" width="630" height="450"></canvas>
     
-    <div class="tab-system">
+    <!-- Panel derecho - Tienda/Ronin -->
+    <div class="right-panel">
       <div class="tab-buttons">
-        <button class="tab-button active" data-tab="inventory">Inventario</button>
-        <button class="tab-button" data-tab="shop">Tienda</button>
+        <button class="tab-button active" data-tab="shop">Tienda</button>
         <button class="tab-button" data-tab="ronin">Ronin</button>
       </div>
       
-      <div class="tab-content active" id="inventory-tab">
-        <div class="panel-title">INVENTARIO</div>
-        <div id="characters"></div>
-      </div>
-      
-      <div class="tab-content" id="shop-tab">
+      <div class="tab-content active" id="shop-tab">
         <div class="panel-title">TIENDA</div>
         <div class="shop-rarity-list">
           <div class="shop-rarity-item common">
@@ -442,7 +625,7 @@
         <button id="buy-character">COMPRAR PERSONAJE (1000 ORO)</button>
       </div>
 
-      <!-- NUEVA PESTAÑA RONIN -->
+      <!-- Pestaña Ronin -->
       <div class="tab-content" id="ronin-tab">
         <div class="panel-title">RONIN WALLET</div>
         <button id="connectRonin">Conectar Wallet</button>
@@ -474,6 +657,61 @@
     </div>
   </div>
 
+  <!-- Slot Machine en la parte inferior -->
+  <div id="slot-machine-container">
+    <div id="slot-machine">
+      <div class="panel-title">SLOT MACHINE</div>
+      <div id="jackpot-display">JACKPOT: 0 ORO</div>
+      <div id="slot-display">
+        <div class="slot-reel">
+          <div class="slot-symbol">💣</div>
+        </div>
+        <div class="slot-reel">
+          <div class="slot-symbol">🧨</div>
+        </div>
+        <div class="slot-reel">
+          <div class="slot-symbol">💎</div>
+        </div>
+      </div>
+      <div id="slot-result"></div>
+      <button class="spin-button" id="spin-button">GIRAR (100 ORO)</button>
+      
+      <div class="prizes-container">
+        <div class="prize-item">
+          <div class="prize-icon">💣</div>
+          <div class="prize-amount">50 ORO</div>
+          <div>3 Bombas</div>
+        </div>
+        <div class="prize-item">
+          <div class="prize-icon">🧨</div>
+          <div class="prize-amount">100 ORO</div>
+          <div>3 Dinamitas</div>
+        </div>
+        <div class="prize-item">
+          <div class="prize-icon">💎</div>
+          <div class="prize-amount">150 ORO</div>
+          <div>3 Diamantes</div>
+        </div>
+        <div class="prize-item">
+          <div class="prize-icon">🧿</div>
+          <div class="prize-amount">200 ORO</div>
+          <div>3 Amuletos</div>
+        </div>
+        <div class="prize-item">
+          <div class="prize-icon">👑</div>
+          <div class="prize-amount">500 ORO</div>
+          <div>3 Coronas</div>
+        </div>
+        <div class="prize-item">
+          <div class="prize-icon">💰</div>
+          <div class="prize-amount">JACKPOT</div>
+          <div>3 Símbolos de Oro</div>
+        </div>
+      </div>
+      <p style="margin-top: 15px; text-align: center;">¡Cada giro contribuye 10 oro al jackpot!</p>
+    </div>
+  </div>
+
   <!-- Sonidos -->
   <audio id="sound-explosion" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-explosion-2759.mp3" preload="auto"></audio>
   <audio id="sound-buy" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" preload="auto"></audio>
@@ -482,6 +720,8 @@
   <audio id="sound-powerup" src="https://assets.mixkit.co/sfx/preview/mixkit-bonus-earned-2065.mp3" preload="auto"></audio>
   <audio id="sound-recharge" src="https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3" preload="auto"></audio>
   <audio id="sound-revive" src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkle-902.mp3" preload="auto"></audio>
+  <audio id="sound-slot" src="https://assets.mixkit.co/sfx/preview/mixkit-slot-machine-spin-1930.mp3" preload="auto"></audio>
+  <audio id="sound-win" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" preload="auto"></audio>
 
   <script>
     // ================ CONFIGURACIÓN INICIAL ================
@@ -498,6 +738,70 @@
       large: { ron: 10, gold: 12000 }
     };
     const HOUSE_WALLET = "0xTuBilleteraRonin"; // REEMPLAZA CON TU WALLET
+
+    // Configuración Slot Machine (actualizada con símbolos de personajes)
+    const SLOT_CONFIG = {
+      cost: 100, // Oro por giro
+      jackpotContribution: 10, // Oro que va al jackpot por giro
+      items: [
+        { 
+          icon: "💣", 
+          type: "bomb",
+          name: "Bomba",
+          prob: 0.3,
+          reward: { gold: 50 },
+          color: "#ff5555"
+        },
+        { 
+          icon: "🧨", 
+          type: "dynamite",
+          name: "Dinamita",
+          prob: 0.25,
+          reward: { gold: 100 },
+          color: "#ff9900"
+        },
+        { 
+          icon: "💎", 
+          type: "diamond",
+          name: "Diamante",
+          prob: 0.2,
+          reward: { gold: 150 },
+          color: "#55ffff"
+        },
+        { 
+          icon: "🧿", 
+          type: "amulet",
+          name: "Amuleto",
+          prob: 0.15,
+          reward: { gold: 200 },
+          color: "#aa55ff"
+        },
+        { 
+          icon: "👑", 
+          type: "crown",
+          name: "Corona",
+          prob: 0.05,
+          reward: { gold: 500 },
+          color: "#ffd700"
+        },
+        { 
+          icon: "💰", 
+          type: "jackpot",
+          name: "Jackpot",
+          prob: 0.05,
+          reward: { jackpot: true },
+          color: "#ffff55"
+        }
+      ],
+      combinations: [
+        { types: ["bomb", "bomb", "bomb"], reward: 50 },
+        { types: ["dynamite", "dynamite", "dynamite"], reward: 100 },
+        { types: ["diamond", "diamond", "diamond"], reward: 150 },
+        { types: ["amulet", "amulet", "amulet"], reward: 200 },
+        { types: ["crown", "crown", "crown"], reward: 500 },
+        { types: ["jackpot", "jackpot", "jackpot"], reward: "jackpot" }
+      ]
+    };
 
     // Distribución de oro en cofres
     const GOLD_DROPS = [
@@ -519,12 +823,13 @@
         name: "COMÚN", 
         class: "common",
         color: "#bdc3c7", 
-        chance: 0.55,
+        chance: 0.01,
         baseEnergy: 100,
         baseDamage: 0.1,
         baseSpeed: 0.03,
         roiDays: 45,
-        bombCost: 1
+        bombCost: 1,
+        symbol: "💣"
       },
       { 
         name: "POCO COMÚN", 
@@ -535,7 +840,8 @@
         baseDamage: 0.15,
         baseSpeed: 0.05,
         roiDays: 35,
-        bombCost: 1
+        bombCost: 1,
+        symbol: "💣"
       },
       { 
         name: "RARO", 
@@ -546,7 +852,8 @@
         baseDamage: 0.25,
         baseSpeed: 0.08,
         roiDays: 25,
-        bombCost: 1
+        bombCost: 1,
+        symbol: "💣"
       },
       { 
         name: "ÉPICO", 
@@ -557,18 +864,20 @@
         baseDamage: 0.4,
         baseSpeed: 0.12,
         roiDays: 20,
-        bombCost: 1
+        bombCost: 1,
+        symbol: "💣"
       },
       { 
         name: "LEGENDARIO", 
         class: "legendary",
         color: "#f1c40f", 
-        chance: 0.01,
+        chance: 0.55,
         baseEnergy: 500,
         baseDamage: 0.7,
         baseSpeed: 0.2,
         roiDays: 15,
-        bombCost: 1
+        bombCost: 1,
+        symbol: "💣"
       }
     ];
 
@@ -618,7 +927,13 @@
       walletAddress: null,
       ronBalance: 0,
       mapSeed: null, // Semilla para mantener el mismo mapa
-      mapState: null // Estado actual del mapa
+      mapState: null, // Estado actual del mapa
+      // Estado de la Slot Machine
+      slotMachine: {
+        jackpot: 0,
+        spinning: false,
+        reels: ["bomb", "bomb", "bomb"] // Estado actual de los rodillos
+      }
     };
 
     // Elementos del DOM
@@ -628,6 +943,12 @@
     const walletDisplay = document.getElementById("wallet");
     const buyButton = document.getElementById("buy-character");
     const connectRoninBtn = document.getElementById("connectRonin");
+    const spinButton = document.getElementById("spin-button");
+    const slotResultDisplay = document.getElementById("slot-result");
+    const jackpotDisplay = document.getElementById("jackpot-display");
+    const slotReels = document.querySelectorAll(".slot-reel");
+    const activeCharactersDiv = document.getElementById("active-characters");
+    const inactiveCharactersDiv = document.getElementById("inactive-characters");
     
     // Sonidos
     const soundExplosion = document.getElementById("sound-explosion");
@@ -637,6 +958,156 @@
     const soundPowerUp = document.getElementById("sound-powerup");
     const soundRecharge = document.getElementById("sound-recharge");
     const soundRevive = document.getElementById("sound-revive");
+    const soundSlot = document.getElementById("sound-slot");
+    const soundWin = document.getElementById("sound-win");
+
+    // ================ FUNCIONES SLOT MACHINE ================
+    function spinSlot() {
+      if (gameState.slotMachine.spinning) return;
+      if (gameState.gold < SLOT_CONFIG.cost) {
+        slotResultDisplay.textContent = "¡No tienes suficiente oro!";
+        slotResultDisplay.style.color = "#f72585";
+        return;
+      }
+
+      // Descontar oro y contribuir al jackpot
+      gameState.gold -= SLOT_CONFIG.cost;
+      gameState.slotMachine.jackpot += SLOT_CONFIG.jackpotContribution;
+      updateGameDisplay();
+      updateJackpotDisplay();
+
+      // Iniciar animación
+      gameState.slotMachine.spinning = true;
+      spinButton.disabled = true;
+      soundSlot.play();
+
+      // Añadir clase de spinning a los rodillos
+      const reels = document.querySelectorAll('.slot-reel');
+      reels.forEach(reel => reel.classList.add("spinning"));
+
+      // Resultados finales para cada rodillo
+      const finalResults = [];
+      const spinDurations = [1500, 2000, 2500]; // 1.5s, 2s, 2.5s
+
+      // Girar cada rodillo con duración diferente
+      reels.forEach((reel, index) => {
+        // Animación temporal con símbolos aleatorios
+        const symbols = reel.querySelector('.slot-symbol');
+        const spinInterval = setInterval(() => {
+          const randomItem = weightedRandom(SLOT_CONFIG.items);
+          symbols.textContent = randomItem.icon;
+          symbols.setAttribute('data-type', randomItem.type);
+          symbols.style.color = randomItem.color;
+        }, 100);
+
+        // Detener después de la duración asignada
+        setTimeout(() => {
+          clearInterval(spinInterval);
+          
+          // Determinar resultado final con aleatoriedad
+          let finalItem;
+          const rand = Math.random();
+          
+          // 5% de chance de jackpot
+          if (rand < 0.05) {
+            finalItem = SLOT_CONFIG.items.find(item => item.type === "jackpot");
+          } 
+          // 15% de chance de premio mayor
+          else if (rand < 0.20) {
+            const highRewards = SLOT_CONFIG.items.filter(item => item.reward.gold >= 200);
+            finalItem = highRewards[Math.floor(Math.random() * highRewards.length)];
+          } 
+          // Resto probabilidades normales
+          else {
+            finalItem = weightedRandom(SLOT_CONFIG.items);
+          }
+          
+          finalResults[index] = finalItem;
+          symbols.textContent = finalItem.icon;
+          symbols.setAttribute('data-type', finalItem.type);
+          symbols.style.color = finalItem.color;
+          gameState.slotMachine.reels[index] = finalItem.type;
+
+          // Quitar clase de spinning cuando todos terminen
+          if (index === 2) {
+            setTimeout(() => {
+              reels.forEach(r => r.classList.remove("spinning"));
+              gameState.slotMachine.spinning = false;
+              spinButton.disabled = false;
+              evaluateSpinResult();
+            }, 500);
+          }
+        }, spinDurations[index]);
+      });
+    }
+
+    function weightedRandom(items) {
+      let total = items.reduce((sum, item) => sum + item.prob, 0);
+      let random = Math.random() * total;
+      
+      for (const item of items) {
+        if (random < item.prob) return item;
+        random -= item.prob;
+      }
+      
+      return items[0];
+    }
+
+    function evaluateSpinResult() {
+      const reelTypes = gameState.slotMachine.reels;
+      let winAmount = 0;
+      let winType = "";
+      let wonJackpot = false;
+
+      // Verificar combinaciones ganadoras
+      for (const combo of SLOT_CONFIG.combinations) {
+        if (reelTypes.every((type, i) => type === combo.types[i])) {
+          if (combo.reward === "jackpot") {
+            winAmount = gameState.slotMachine.jackpot;
+            gameState.slotMachine.jackpot = 0;
+            wonJackpot = true;
+            winType = "JACKPOT";
+          } else {
+            winAmount = combo.reward;
+            winType = SLOT_CONFIG.items.find(item => item.type === combo.types[0]).name;
+          }
+          break;
+        }
+      }
+
+      // Mostrar resultado
+      if (winAmount > 0) {
+        if (wonJackpot) {
+          slotResultDisplay.textContent = `¡JACKPOT! GANASTE ${winAmount} ORO`;
+          slotResultDisplay.style.color = "#ffd700";
+          soundWin.play();
+          
+          gameState.goldNotifications.push({
+            x: Math.floor(MAP_WIDTH / 2) * TILE_SIZE,
+            y: Math.floor(MAP_HEIGHT / 2) * TILE_SIZE,
+            text: `¡JACKPOT! +${winAmount}`,
+            time: Date.now(),
+            color: "#ffd700"
+          });
+        } else {
+          slotResultDisplay.textContent = `¡${winType}! GANASTE ${winAmount} ORO`;
+          slotResultDisplay.style.color = "#2ecc71";
+          soundGold.play();
+        }
+        gameState.gold += winAmount;
+      } else {
+        slotResultDisplay.textContent = "¡Sigue intentando!";
+        slotResultDisplay.style.color = "#f72585";
+      }
+
+      updateGameDisplay();
+      updateJackpotDisplay();
+      saveGame();
+    }
+
+    function updateJackpotDisplay() {
+      jackpotDisplay.textContent = `JACKPOT: ${gameState.slotMachine.jackpot} ORO`;
+    }
 
     // ================ FUNCIONES RONIN ACTUALIZADAS ================
     
@@ -652,7 +1123,7 @@
       try {
         // Verificar si la extensión está instalada
         if (!isRoninInstalled()) {
-          const shouldInstall = confirm('Ronin Wallet no está instalado. ¿Deseas instalarlo ahora?');
+          const shouldInstall = confirm('Ronin Wallet no está instalada. ¿Deseas instalarla ahora?');
           if (shouldInstall) {
             window.open('https://wallet.roninchain.com', '_blank');
           }
@@ -883,6 +1354,7 @@
       levelDisplay.textContent = gameState.level;
       xpDisplay.textContent = `${Math.floor(gameState.xp)}/${gameState.xpToNextLevel}`;
       buyButton.disabled = gameState.gold < 1000;
+      spinButton.disabled = gameState.gold < SLOT_CONFIG.cost || gameState.slotMachine.spinning;
     }
 
     function addXP(amount) {
@@ -1026,7 +1498,8 @@
         roiDays: rarity.roiDays,
         bombsPlaced: 0,
         totalGoldEarned: 0,
-        bombCost: rarity.bombCost
+        bombCost: rarity.bombCost,
+        symbol: rarity.symbol
       };
       
       gameState.characters.push(character);
@@ -1043,59 +1516,52 @@
     };
 
     function updateInventory() {
-      const div = document.getElementById("characters");
-      div.innerHTML = "";
+      activeCharactersDiv.innerHTML = "";
+      inactiveCharactersDiv.innerHTML = "";
       
       if (gameState.characters.length === 0) {
-        div.innerHTML = `<p style="text-align: center; color: #777;">No tienes personajes</p>`;
+        activeCharactersDiv.innerHTML = `<p style="text-align: center; color: #777;">No tienes personajes activos</p>`;
+        inactiveCharactersDiv.innerHTML = `<p style="text-align: center; color: #777;">No tienes personajes inactivos</p>`;
         return;
       }
       
-      gameState.characters.sort((a, b) => b.level - a.level).forEach(c => {
-        const rechargeCost = RECHARGE_COSTS[c.rarityClass.toLowerCase()];
-        const isDead = c.totalGoldEarned >= 1500;
-        
-        const el = document.createElement("div");
-        el.className = `character-card ${c.rarityClass} ${isDead ? 'dead-character' : ''}`;
-        el.innerHTML = `
-          <div class="character-name">
-            <span>${c.rarity}</span>
-            <span class="character-level">Nvl ${c.level}</span>
-          </div>
-          <div>Daño: ${c.damage.toFixed(1)}</div>
-          <div>Velocidad: ${(c.speed * 100).toFixed(1)}%</div>
-          <div>ROI: ${c.roiDays} días</div>
-          <div>Energía: ${Math.floor(c.energy)}/${c.maxEnergy}</div>
-          <div class="bar-container">
-            <div class="bar energy-bar" style="width:${(c.energy/c.maxEnergy)*100}%"></div>
-          </div>
-          <div>XP: ${Math.floor(c.xp)}/${c.xpToNextLevel}</div>
-          <div class="bar-container">
-            <div class="bar xp-bar" style="width:${(c.xp/c.xpToNextLevel)*100}%"></div>
-          </div>
-          <div>Oro generado: ${c.totalGoldEarned.toFixed(2)}/1500</div>
-          <div class="bar-container">
-            <div class="bar" style="width:${(c.totalGoldEarned/1500)*100}%; background: linear-gradient(90deg, #ffd700, #ff9900)"></div>
-          </div>
-          ${isDead ? 
-            '<button class="revive-button">REVIVIR (500 ORO)</button>' : 
-            `<button class="${c.active ? 'active' : ''}">${c.active ? "DESACTIVAR" : "ACTIVAR"}</button>
-             <button class="recharge-button" data-cost="${rechargeCost}">RECARGAR (${rechargeCost} ORO)</button>`}`;
-        
-        if (!isDead) {
+      // Personajes activos
+      const activeCharacters = gameState.characters.filter(c => c.active && c.totalGoldEarned < 1500);
+      if (activeCharacters.length === 0) {
+        activeCharactersDiv.innerHTML = `<p style="text-align: center; color: #777;">No tienes personajes activos</p>`;
+      } else {
+        activeCharacters.forEach(c => {
+          const rechargeCost = RECHARGE_COSTS[c.rarityClass.toLowerCase()];
+          
+          const el = document.createElement("div");
+          el.className = `character-card ${c.rarityClass}`;
+          el.innerHTML = `
+            <div class="character-name">
+              <span>${c.rarity}</span>
+              <span class="character-level">Nvl ${c.level}</span>
+            </div>
+            <div>Daño: ${c.damage.toFixed(1)}</div>
+            <div>Velocidad: ${(c.speed * 100).toFixed(1)}%</div>
+            <div>ROI: ${c.roiDays} días</div>
+            <div>Energía: ${Math.floor(c.energy)}/${c.maxEnergy}</div>
+            <div class="bar-container">
+              <div class="bar energy-bar" style="width:${(c.energy/c.maxEnergy)*100}%"></div>
+            </div>
+            <div>XP: ${Math.floor(c.xp)}/${c.xpToNextLevel}</div>
+            <div class="bar-container">
+              <div class="bar xp-bar" style="width:${(c.xp/c.xpToNextLevel)*100}%"></div>
+            </div>
+            <div>Oro generado: ${c.totalGoldEarned.toFixed(2)}/1500</div>
+            <div class="bar-container">
+              <div class="bar" style="width:${(c.totalGoldEarned/1500)*100}%; background: linear-gradient(90deg, #ffd700, #ff9900)"></div>
+            </div>
+            <button class="active">DESACTIVAR</button>
+            <button class="recharge-button" data-cost="${rechargeCost}">RECARGAR (${rechargeCost} ORO)</button>`;
+          
           const btn = el.querySelector("button:not(.recharge-button)");
           btn.onclick = () => {
-            if (c.active) {
-              c.active = false;
-              gameState.activeCharacters = gameState.activeCharacters.filter(a => a.id !== c.id);
-              btn.textContent = "ACTIVAR";
-              btn.classList.remove("active");
-            } else if (c.energy > 0) {
-              c.active = true;
-              gameState.activeCharacters.push(c);
-              btn.textContent = "DESACTIVAR";
-              btn.classList.add("active");
-            }
+            c.active = false;
+            gameState.activeCharacters = gameState.activeCharacters.filter(a => a.id !== c.id);
             updateInventory();
             saveGame();
           };
@@ -1142,31 +1608,126 @@
           } else if (gameState.gold < rechargeCost) {
             rechargeBtn.disabled = true;
           }
-        } else {
-          const reviveBtn = el.querySelector(".revive-button");
-          reviveBtn.onclick = () => {
-            if (gameState.gold >= 500) {
-              gameState.gold -= 500;
-              c.totalGoldEarned = 0;
-              c.energy = c.maxEnergy;
-              soundRevive.play();
-              updateGameDisplay();
-              updateInventory();
-              saveGame();
-            } else {
-              reviveBtn.textContent = "¡NO HAY ORO!";
-              reviveBtn.style.background = "#f72585";
+          
+          activeCharactersDiv.appendChild(el);
+        });
+      }
+      
+      // Personajes inactivos
+      const inactiveCharacters = gameState.characters.filter(c => !c.active || c.totalGoldEarned >= 1500);
+      if (inactiveCharacters.length === 0) {
+        inactiveCharactersDiv.innerHTML = `<p style="text-align: center; color: #777;">No tienes personajes inactivos</p>`;
+      } else {
+        inactiveCharacters.forEach(c => {
+          const rechargeCost = RECHARGE_COSTS[c.rarityClass.toLowerCase()];
+          const isDead = c.totalGoldEarned >= 1500;
+          
+          const el = document.createElement("div");
+          el.className = `character-card ${c.rarityClass} ${isDead ? 'dead-character' : ''}`;
+          el.innerHTML = `
+            <div class="character-name">
+              <span>${c.rarity}</span>
+              <span class="character-level">Nvl ${c.level}</span>
+            </div>
+            <div>Daño: ${c.damage.toFixed(1)}</div>
+            <div>Velocidad: ${(c.speed * 100).toFixed(1)}%</div>
+            <div>ROI: ${c.roiDays} días</div>
+            <div>Energía: ${Math.floor(c.energy)}/${c.maxEnergy}</div>
+            <div class="bar-container">
+              <div class="bar energy-bar" style="width:${(c.energy/c.maxEnergy)*100}%"></div>
+            </div>
+            <div>XP: ${Math.floor(c.xp)}/${c.xpToNextLevel}</div>
+            <div class="bar-container">
+              <div class="bar xp-bar" style="width:${(c.xp/c.xpToNextLevel)*100}%"></div>
+            </div>
+            <div>Oro generado: ${c.totalGoldEarned.toFixed(2)}/1500</div>
+            <div class="bar-container">
+              <div class="bar" style="width:${(c.totalGoldEarned/1500)*100}%; background: linear-gradient(90deg, #ffd700, #ff9900)"></div>
+            </div>
+            ${isDead ? 
+              '<button class="revive-button">REVIVIR (500 ORO)</button>' : 
+              `<button>ACTIVAR</button>
+               <button class="recharge-button" data-cost="${rechargeCost}">RECARGAR (${rechargeCost} ORO)</button>`}`;
+          
+          if (!isDead) {
+            const btn = el.querySelector("button:not(.recharge-button)");
+            btn.onclick = () => {
+              if (c.energy > 0) {
+                c.active = true;
+                gameState.activeCharacters.push(c);
+                updateInventory();
+                saveGame();
+              }
+            };
+            
+            const rechargeBtn = el.querySelector(".recharge-button");
+            rechargeBtn.onclick = () => {
+              const cost = parseFloat(rechargeBtn.getAttribute("data-cost"));
               
-              setTimeout(() => {
-                reviveBtn.textContent = `REVIVIR (500 ORO)`;
-                reviveBtn.style.background = "linear-gradient(135deg, #f72585, #b5179e)";
-              }, 1000);
+              if (gameState.gold >= cost && c.energy < c.maxEnergy) {
+                gameState.gold -= cost;
+                c.energy = c.maxEnergy;
+                
+                soundRecharge.play();
+                rechargeBtn.textContent = "¡RECARGADO!";
+                rechargeBtn.style.background = "linear-gradient(135deg, #2ecc71, #27ae60)";
+                
+                setTimeout(() => {
+                  rechargeBtn.textContent = `RECARGAR (${cost} ORO)`;
+                  rechargeBtn.style.background = "linear-gradient(135deg, #4cc9f0, #4895ef)";
+                }, 1000);
+                
+                updateGameDisplay();
+                updateInventory();
+                saveGame();
+              } else if (gameState.gold < cost) {
+                rechargeBtn.textContent = "¡NO HAY ORO!";
+                rechargeBtn.style.background = "#f72585";
+                
+                setTimeout(() => {
+                  rechargeBtn.textContent = `RECARGAR (${cost} ORO)`;
+                  rechargeBtn.style.background = "linear-gradient(135deg, #4cc9f0, #4895ef)";
+                }, 1000);
+              }
+            };
+            
+            if (c.energy <= 0) {
+              btn.disabled = true;
+              btn.textContent = "SIN ENERGÍA";
             }
-          };
-        }
-        
-        div.appendChild(el);
-      });
+            
+            if (c.energy >= c.maxEnergy) {
+              rechargeBtn.disabled = true;
+              rechargeBtn.textContent = "ENERGÍA LLENA";
+            } else if (gameState.gold < rechargeCost) {
+              rechargeBtn.disabled = true;
+            }
+          } else {
+            const reviveBtn = el.querySelector(".revive-button");
+            reviveBtn.onclick = () => {
+              if (gameState.gold >= 500) {
+                gameState.gold -= 500;
+                c.totalGoldEarned = 0;
+                c.energy = c.maxEnergy;
+                soundRevive.play();
+                updateGameDisplay();
+                updateInventory();
+                saveGame();
+              } else {
+                reviveBtn.textContent = "¡NO HAY ORO!";
+                reviveBtn.style.background = "#f72585";
+                
+                setTimeout(() => {
+                  reviveBtn.textContent = `REVIVIR (500 ORO)`;
+                  reviveBtn.style.background = "linear-gradient(135deg, #f72585, #b5179e)";
+                }, 1000);
+              }
+            };
+          }
+          
+          inactiveCharactersDiv.appendChild(el);
+        });
+      }
     }
 
     function isBlocked(x, y) {
@@ -1717,27 +2278,25 @@
 
     // ================ INICIALIZACIÓN ================
     // Polyfill para seedrandom si no está disponible
-if (typeof Math.seedrandom !== 'function') {
-  Math.seedrandom = function(seed) {
-    // Reemplaza por esta implementación segura:
-    let hash = 0;
-    for (let i = 0; i < seed.length; i++) {
-      hash = (hash << 5) - hash + seed.charCodeAt(i);
-      hash |= 0;
+    if (typeof Math.seedrandom !== 'function') {
+      Math.seedrandom = function(seed) {
+        // Implementación simple de seedrandom
+        let value = seed;
+        return function() {
+          value = (value * 9301 + 49297) % 233280;
+          return value / 233280;
+        };
+      };
     }
-    return function() {
-      hash = Math.sin(hash) * 10000;
-      return hash - Math.floor(hash);
-    };
-  };
-}
 
     loadGame();
     updateInventory();
+    updateJackpotDisplay();
     gameLoop();
 
     // Event listeners
     connectRoninBtn.addEventListener('click', connectRonin);
+    spinButton.addEventListener('click', spinSlot);
     
     document.querySelectorAll('.pack').forEach(pack => {
       pack.addEventListener('click', () => {
